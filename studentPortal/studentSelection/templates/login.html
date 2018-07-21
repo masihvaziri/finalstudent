@@ -1,0 +1,119 @@
+{% load widget_tweaks %}
+<html>
+<head>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+    <meta charset="UTF-8">
+    <style>
+    @import url(http://weloveiconfonts.com/api/?family=entypo);
+    @import url(https://fonts.googleapis.com/css?family=Roboto);
+
+    /* zocial */
+    [class*="entypo-"]:before {
+      font-family: 'entypo', sans-serif;
+    }
+
+    *,
+    *:before,
+    *:after {
+      -moz-box-sizing: border-box;
+      -webkit-box-sizing: border-box;
+      box-sizing: border-box;
+    }
+
+    h2 {
+      color:rgba(255,255,255,.8);
+      margin-left:12px;
+    }
+
+    body {
+      background: #272125;
+      font-family: 'Roboto', sans-serif;
+
+    }
+
+    form {
+      position:relative;
+      margin: 150px auto;
+      width: 380px;
+      height: auto;
+    }
+
+    input {
+      padding: 16px;
+      border-radius:7px;
+      border:0px;
+      background: deepskyblue;
+      display: block;
+      margin: 15px;
+      width: 300px;
+      color: #272125;
+      font-size:18px;
+      height: 54px;
+    }
+
+    input:focus {
+      outline-color: rgba(0,0,0,0);
+      background: rgba(255,255,255,.95);
+      color: #e74c3c;
+    }
+
+    button {
+      float:right;
+      height: 121px;
+      width: 50px;
+      border: 0px;
+      background: #e74c3c;
+      border-radius:7px;
+      padding: 10px;
+      color:#272125;
+      font-size:22px;
+    }
+
+    .inputUserIcon {
+      position:absolute;
+      top:68px;
+      right: 80px;
+      color:#272125;
+    }
+
+    .inputPassIcon {
+      position:absolute;
+      top:136px;
+      right: 80px;
+      color:#272125;
+    }
+
+    input::-webkit-input-placeholder {
+      color: #272125;
+    }
+
+    input:focus::-webkit-input-placeholder {
+      color: #e74c3c;
+    }
+</style>
+    <title>login page</title>
+</head>
+<body style="background-color: #2c3e50">
+    {% if error %}
+        <script>  alert('{{ error }}');</script>
+    {% endif %}
+
+     <form  method="post">
+         {% csrf_token %}
+
+          <h2 dir="rtl" style="font-family: 'B Koodak';color: white">  ورود  <span class="entypo-login" ></span> </h2>
+          <button class="submit" name="ok" style="background-color: green"><span class="entypo-lock" style="color: white"></span></button>
+
+         <span class="entypo-user inputUserIcon"  style="color: white"></span>
+          {% render_field form.studentCode placeholder='نام کاربری' %}
+
+         <span class="entypo-key inputPassIcon" style="color: white"></span>
+          {% render_field form.password class+="pass" type="password" placeholder="رمز" %}
+
+         <div style=" text-align:center">
+            <a href="/register/" style="font: 16px 'B Koodak'"> جهت ثبت نام کلیک کنید</a>
+         </div>
+    </form>
+</body>
+</html>

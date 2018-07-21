@@ -1,0 +1,70 @@
+{% extends 'teacherBaseTemplate.html' %}
+{% load widget_tweaks %}
+{% load staticfiles %}
+{% load static %}
+
+{% block head %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+    .card {
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+      max-width: 300px;
+      margin: auto;
+      text-align: center;
+      font-family: arial;
+    }
+
+    .title {
+      color: grey;
+      font-size: 18px;
+    }
+
+    button {
+      border: none;
+      outline: 0;
+      display: inline-block;
+      padding: 8px;
+      color: white;
+      background-color: #000;
+      text-align: center;
+      cursor: pointer;
+      width: 100%;
+      font-size: 18px;
+    }
+
+    a {
+      text-decoration: none;
+      font-size: 22px;
+      color: black;
+    }
+
+    button:hover, a:hover {
+      opacity: 0.7;
+    }
+    h1 {
+        font-family: "B Koodak";
+        font-size: 20px;
+        color: white;
+    }
+    p{
+        color: white;
+    }
+    </style>
+{% endblock %}
+
+
+{% block content %}
+    <br>
+        <div class="card">
+            <img src="{{ teacher.img.url }}" alt="img" style="width: 200px ; height: 200px" >
+
+            <h1>{{ teacher.firstName}} {{ teacher.lastName }}</h1>
+            <h1>{{ teacher.studentCode}}</h1>
+            <h1>{{ teacher.email}}</h1>
+            <h1>{{ teacher.mobile}}</h1>
+            <hr>
+
+            <p>Tehran Shomal University</p>
+
+        </div>
+{% endblock %}

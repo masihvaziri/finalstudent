@@ -1,0 +1,159 @@
+{% extends 'baseTemplate.html' %}
+{% load widget_tweaks %}
+{% load staticfiles %}
+{% load static %}
+
+{% block head %}
+    <style>
+    @import url(http://weloveiconfonts.com/api/?family=entypo);
+    @import url(https://fonts.googleapis.com/css?family=Roboto);
+
+    /* zocial */
+    [class*="entypo-"]:before {
+      font-family: 'entypo', sans-serif;
+    }
+        body{
+            background-color: white;
+        }
+        #table1 {
+            font-family: "Trebuchet MS", "B Nazanin", Helvetica, sans-serif;
+            font-size: 18px;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        #table1 td, #customers th {
+            text-align: center;
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+
+        #table1 tr:nth-child(even){background-color:deepskyblue;}
+         #table1 tr:nth-child(odd){background-color:whitesmoke;}
+
+        #table1 tr:hover {background-color: #ddd;}
+
+        #table1 th {
+            padding-top: 12px;
+            padding-bottom: 12px;
+            text-align: center;
+            background-color: deepskyblue;
+            color: white;
+        }
+    </style>
+{% endblock %}
+
+
+{% block content %}
+    {% if error %}
+        <script> alert('{{ error }}') </script>
+    {% endif %}
+
+
+
+
+        <div style="display: flow; direction: rtl">
+            <form method="post" id="selectTerm" name="selectTerm" action="/entekhabVahed/">
+            {% csrf_token %}
+                <ul>
+                     <input type="hidden" name="inputvalue" id="inputvalue" value="">
+                    {% for item in listTerm %}
+                       <li><button class="btn btn-primary" style="height:35px;width:200px;" name="termButton" onclick="change('{{ item.name }}');">{{ item.detail }}</button></li> <br>
+                    {% endfor %}
+                </ul>
+            </form>
+        </div>
+
+
+
+
+
+
+{% if all_lesson %}
+
+    <div>
+        <br>
+        <hr>
+        <table id="table1" dir="rtl">
+            <p align="center" style="font: 24px 'B Koodak';color: white" >واحد های انتخابی</p>
+           <thead  >
+              <tr>
+                <th>ردیف</th>
+                <th>شماره درس</th>
+                <th>نام درس</th>
+                <th>تعداد واحد</th>
+                <th>ارائه دهنده</th>
+                <th>ویرایش</th>
+              </tr>
+            </thead >
+
+             <tbody  >
+            {% for item in selected %}
+                 <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ item.lessonID.lessonID }}</td>
+                    <td>{{ item.lessonID.name }}</td>
+                    <td>{{ item.lessonID.vahed }}</td>
+                    <td>{{ item.lessonID.teacherID.firstName }} {{ item.lessonID.teacherID.lastName }}</td>
+                     <td>
+                         <form method="get" action="/deleteCourse/">
+                             <input type="hidden" name="item_id" value="{{  item.lessonID.lessonID  }}">
+                             <button class="btn btn-danger" > حذف </button>
+                         </form>
+                     </td>
+                  </tr>
+            {% endfor %}
+
+           </tbody>
+        </table>
+     <h4 style="font: 18px 'B Koodak' ; color: white ; text-align: center">مجموع واحد های انتخابی شما : {{ count }}</h4>
+    </div>
+    <hr>
+    <div>
+        <table id="table1" dir="rtl">
+        <p align="center" style="font: 24px 'B Koodak';color: white" >دروس ارائه شده</p>
+            <thead >
+            <tr>
+                <th>ردیف</th>
+                <th>شماره درس</th>
+                <th>نام درس</th>
+                <th>تعداد واحد</th>
+                <th>ظرفیت باقی مانده</th>
+                <th>ارائه دهنده</th>
+                <th>انتخاب</th>
+            </tr>
+            </thead>
+            <tbody>
+                {% for lesson in all_lesson %}
+                     <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ lesson.lessonID }}</td>
+                        <td>{{ lesson.name}}</td>
+                        <td>{{ lesson.vahed}}</td>
+                        <td>{{ lesson.remain}}</td>
+                        <td>{{ lesson.teacherID.firstName }} {{ lesson.teacherID.lastName }}</td>
+                        <td>
+                         <form method="get" action="/choiceCourse/">
+                             <input type="hidden" name="lesson_id" value="{{ lesson.lessonID }}">
+                             <button class="btn btn-success" onmousedown="details({{ lesson.lessonID }})"> انتخاب </button>
+                         </form>
+                         </td>
+                      </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+{% endif %}
+
+
+    <script>
+        function details(coursId) {
+            document.getElementById("form1").reset();
+        } function change(value) {
+            document.getElementById("inputvalue").value = value ;
+            document.getElementById("selectTerm").submit();
+        }
+    </script>
+
+{% endblock %}

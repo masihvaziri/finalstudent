@@ -1,0 +1,308 @@
+{% extends 'teacherBaseTemplate.html' %}
+{% load widget_tweaks %}
+{% load staticfiles %}
+{% load static %}
+
+
+{% block head %}
+    <link rel="stylesheet" href="{% static 'stylesheet/setgrade.css'%}"/>
+     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <style>
+
+    @import url(http://weloveiconfonts.com/api/?family=entypo);
+    @import url(https://fonts.googleapis.com/css?family=Roboto);
+    .panel {
+          box-shadow: none;
+        }
+        .panel-heading {
+            border-bottom: 0;
+            direction: rtl;
+        }
+        .panel-title {
+            font-size: 17px;
+            font-family: "B Koodak";
+        }
+        .panel-title > small {
+            font-size: .75em;
+            color: #999999;
+            font-family: "B Koodak";
+        }
+        .panel-body *:first-child {
+             margin-top: 0;
+        }
+        .panel-footer {
+            border-top: 0;
+        }
+
+        .panel-default > .panel-heading {
+            color: #333333;
+            background-color: transparent;
+            border-color: rgba(0, 0, 0, 0.07);
+        }
+
+        form label {
+            color: #999999;
+            font-weight: 400;
+        }
+
+        .form-horizontal .form-group {
+                align-items: left;
+                margin-left: -15px;
+                margin-right: -15px;
+        }
+        @media (min-width: 768px) {
+          .form-horizontal .control-label {
+                float: right;
+              font-family: "B Koodak";
+              font-size: 16px;
+                text-align: right;
+                margin-bottom: 0;
+                padding-top: 7px;
+          }
+        }
+
+        .profile__contact-info-icon {
+            float: left;
+            font-size: 18px;
+            color: #999999;
+        }
+        .profile__contact-info-body {
+            overflow: hidden;
+            padding-left: 20px;
+            color: #999999;
+        }
+        .profile-avatar {
+          width: 200px;
+          position: relative;
+          margin: 0px auto;
+          margin-top: 196px;
+          border: 4px solid #f3f3f3;
+        }
+    input{
+        text-align: center;
+    }
+
+    .navbar
+    {
+            overflow: hidden;
+            margin-bottom: 0px;
+            margin-top: unset;
+            left: 0px;
+            position: fixed;
+            bottom: 0px;
+            width: 100%;
+            text-align: center;
+            color: white;
+        }
+
+     table {
+                border-collapse: collapse;
+            }
+            th, td {
+                border: 1px solid white;
+            }
+    /* zocial */
+    [class*="entypo-"]:before {
+      font-family: 'entypo', sans-serif;
+    }
+        body{
+            background-color: white;
+        }
+        #table1 {
+            font-family: "Trebuchet MS", "B Koodak", Helvetica, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        #table1 td, #customers th {
+            text-align: center;
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+
+        #table1 tr:nth-child(even){background-color:deepskyblue;}
+         #table1 tr:nth-child(odd){background-color:whitesmoke;}
+
+        #table1 tr:hover {background-color: #ddd;}
+
+        #table1 th {
+            padding-top: 12px;
+            padding-bottom: 12px;
+            text-align: center;
+            background-color: deepskyblue;
+            color: white;
+        }
+            .input {
+             padding: 4px;
+             font-size: 14px;
+             border-width: 6px;
+             border-color: #CCCCCC;
+             background-color: #FFFFFF;
+             color: #000000;
+             border-style: solid;
+             border-radius: 11px;
+             box-shadow: 0px 0px 5px rgba(66,66,66,.75);
+             text-shadow: 0px 0px 2px rgba(66,66,66,.32);
+        }
+         .input:focus {
+
+        }
+        .container button {
+            width: 100%;
+            color: white;
+            font-family: "B Koodak";
+            font-size: 1.5em;
+            display: block;
+            text-align: center;
+            position: relative;
+            background-color: #2BD6B4;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <br>
+
+{#    <div  style="float: right"   >#}
+{#        <form method="post" id="form1" >#}
+{#            {% csrf_token %}#}
+{#            <div class="dropdown">#}
+{#                <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">لیست دروس ترم جاری شما#}
+{#                <span class="caret"></span></button>#}
+{#                    <ul class="dropdown-menu" >#}
+{#                     <input type="hidden" name="inputvalue" id="inputvalue" value="">#}
+{#                         {% for lesson in lessonList %}#}
+{#                             <li ><a href="#" onclick="selected({{ lesson.lessonID }})">{{ lesson.name }}</a></li>#}
+{#                         {% endfor %}#}
+{#                    </ul>#}
+{#            </div>#}
+{#        </form>#}
+{#    </div>#}
+ 
+<br>
+<br>
+
+
+    <div class="panel" style="direction: rtl; width: 55%; float: right;">
+        <div class="panel-heading" style="background-color: #D4D4D4">
+            <h4 class="panel-title"> جست و جو: </h4>
+        </div>
+          <div class="panel-body">
+              <div >
+                <form method="post" id="serachTermForm">
+                {% csrf_token %}
+                        <label>انتخاب سال :</label>
+                        <input type="text" name = "YearSearch" id="YearSearch" maxlength="2"   style="height: 35px;">
+
+                        <label>انتخاب ترم  :</label>
+
+                        <select class="btn" id="optionSearch" name="optionSearch" style="height:35px" >
+                            <option value="0"></option>
+                            <option value="1">نیم سال اول</option>
+                            <option value="2">نیم سال دوم</option>
+                            <option value="3">نیم سال سوم</option>
+                        </select>
+                           <button class="btn btn-success " type="button" style="margin-right: 25px" onclick="searchForm()">جست و جو
+                        <span class="glyphicon glyphicon-search"></span></button>
+                    </form>
+              </div>
+          </div>
+    </div>
+
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+
+
+{% if lessonList  %}
+<script>
+    document.getElementById("optionSearch").selectedIndex = {{ request.session.termSearch }} ;
+    document.getElementById("YearSearch").value = {{ request.session.yearSearch }} ;
+</script>
+    <h4 style="color: whitesmoke;direction: rtl">لیست دروس ترم {{ request.session.termSearch }} سال {{ request.session.yearSearch }}</h4>
+    <div style="display: flow; direction: rtl">
+            <form method="post" id="form1" >
+                {% csrf_token %}
+                <ul>
+                     <input type="hidden" name="inputvalue" id="inputvalue" value="">
+                    {% for lesson in lessonList %}
+                        <button class="btn btn-primary" onclick="selected({{ lesson.lessonID }});" style="width: 150px;font-family: 'B Koodak';font-size: 17px">{{ lesson.name }}</button>
+                    {% endfor %}
+                </ul>
+            <script>
+        </script>
+            </form>
+    </div>
+{% endif %}
+
+
+    {% if students %}
+
+        <hr>
+    <div class="container" style="position: relative">
+     <p  style="font: 24px 'B Koodak';color: white ; text-align: center" > {{ students.first.lessonID.name }}</p>
+        <table id="table1" dir="rtl">
+            <thead>
+                <tr >
+                    <th>ردیف</th>
+                    <th>نام و نام خانوادگی</th>
+                    <th>شماره دانشجویی</th>
+                    <th>نمره</th>
+                    <th>ویرایش</th>
+                    <th>درخواست اعتراض دانشجو</th>
+                    <th>پاسخ اعتراض دانشجو</th>
+
+                </tr>
+            </thead>
+            <tbody>
+            <form method="post" name="formGrade" id="formGrade" >
+                {% csrf_token %}
+                {% for item in students %}
+                    <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td>{{ item.studentCode.firstName }} {{ item.studentCode.lastName }}</td>
+                            <td>{{ item.studentCode }}</td>
+                            <td>{{ item.gradeValu  }} </td>
+                            <td> <input type="number" name="{{ item.studentCode.studentCode }}" class="input" placeholder="{{ item.gradeValu }}" value="{{ item.gradeValu }}"  style="text-align: center"> </td>
+                            <td style="color:firebrick"> {{ item.gradeFK.protest }} </td>
+                            <td>
+                                <textarea maxlength="60"   name="protest{{ item.studentCode.studentCode }}" >{{ item.gradeFK.protestAnswer }}</textarea>
+                                <input type="hidden" name="lessonId" value="{{  item.lessonID.lessonID  }}">
+                                <input type="hidden" name="studentId" value="{{  item.studentCode  }}">
+                            </td>
+                    </tr>
+                {% endfor %}
+
+
+            </form>
+            </tbody>
+        </table>
+<br>
+             <button class="btn" onclick="submitGrade()">تایید</button>
+    </div>
+{% endif %}
+
+
+    <script>
+    function selected(temp) {
+
+        document.getElementById('inputvalue').value = temp;
+        document.getElementById('form1').submit() ;
+    };
+    function submitGrade() {
+        document.getElementById('formGrade').submit() ;
+    };
+    function searchForm() {
+        {#document.getElementById('inputvalue').value = temp;#}
+        document.getElementById('serachTermForm').submit() ;
+
+    };
+</script>
+{% endblock %}

@@ -1,0 +1,141 @@
+{% extends 'baseTemplate.html' %}
+{% load widget_tweaks %}
+{% load staticfiles %}
+{% load static %}
+
+{% block head %}
+    <style>
+
+    @import url(http://weloveiconfonts.com/api/?family=entypo);
+    @import url(https://fonts.googleapis.com/css?family=Roboto);
+    .navbar{
+            overflow: hidden;
+            margin-bottom: 0px;
+            margin-top: unset;
+            left: 0px;
+            position: fixed;
+            bottom: 0px;
+            width: 100%;
+            text-align: center;
+            color: white;
+        }
+     table {
+                border-collapse: collapse;
+            }
+            th, td {
+                border: 1px solid white;
+            }
+    /* zocial */
+    [class*="entypo-"]:before {
+      font-family: 'entypo', sans-serif;
+    }
+        body{
+            background-color: white;
+        }
+        #table1 {
+            font-family: "Trebuchet MS", "B Koodak", Helvetica, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        #table1 td, #customers th {
+            text-align: center;
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+
+        #table1 tr:nth-child(even){background-color:deepskyblue;}
+         #table1 tr:nth-child(odd){background-color:whitesmoke;}
+
+        #table1 tr:hover {background-color: #ddd;}
+
+        #table1 th {
+            padding-top: 12px;
+            padding-bottom: 12px;
+            text-align: center;
+            background-color: deepskyblue;
+            color: white;
+        }
+    </style>
+{% endblock %}
+
+
+
+{% block content %}
+
+    <div style="display: flow; direction: rtl">
+        <form method="post" id="form1">
+            {% csrf_token %}
+            <ul>
+                 <input type="hidden" name="inputvalue" id="inputvalue" value="">
+                {% for item in listofterm %}
+                    <li><button class="btn btn-primary" style="width: 200px;height: 35px" name="termButton" onclick="change('{{ item.name }}');">{{ item.detail }}</button></li><br>
+                {% endfor %}
+            </ul>
+        </form>
+    </div>
+
+
+    {% if grade.count %}
+    <div  name="div1" id="div1" style="">
+        <br>
+        <div class="container ">
+        <table  id="table1" dir="rtl">
+            <thead>
+                <tr>
+                    <th>ردیف</th>
+                    <th>نام درس</th>
+                     <th>مدرس</th>
+                    <th>تعداد واحد</th>
+                    <th>نمره</th>
+                    <th>متن اعتراض</th>
+                    <th>ثبت اعتراض</th>
+                    <th>پاسخ اعتراض</th>
+                  </tr>
+            </thead>
+            <tbody>
+
+                {% for item in grade %}
+                    <tr>
+                        <td> {{  forloop.counter  }}</td>
+                        <td> {{  item.lessonID.name }}</td>
+                        <td> {{ item.lessonID.teacherID.firstName }} {{ item.lessonID.teacherID.lastName }} </td>
+                        <td> {{  item.lessonID.vahed }}</td>
+                        <td>  {{ item.gradeValue }} </td>
+                        <form method="post" name="formProtest" id="formProtest" >
+                        {% csrf_token %}
+                            <td> <textarea maxlength="60" id="protest" name="protest" >{{ item.protest }}</textarea></td>
+                            <td>
+                                <button class="btn btn-success" onclick="saveProtest()">ثبت</button>
+                                <input type="hidden" name="protestLessonId" id="protestLessonId" value="{{ item.lessonID.lessonID }}">
+                            </td>
+                        </form>
+                        <td> {{ item.protestAnswer }}</td>
+                    </tr>
+                {% endfor %}
+
+
+            </tbody>
+        </table>
+        <h4 style="font: 18px 'B Koodak' ; color: white ; text-align: center"> معدل ترم :  {{ avg }}</h4>
+        <hr>
+        <h4 style="font: 18px 'B Koodak' ; color: white ; text-align: center"> معدل کل :  {{ totalavg }}</h4>
+        </div>
+    </div>
+    {% endif %}
+
+
+<script>
+
+function saveProtest()
+{
+   document.getElementById("formProtest").submit();
+}
+function change(value) {
+    document.getElementById("inputvalue").value = value;
+    document.getElementById("form1").submit();
+}
+
+
+</script>
+{% endblock %}

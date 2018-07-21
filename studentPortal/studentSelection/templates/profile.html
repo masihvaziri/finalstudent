@@ -1,0 +1,188 @@
+{% extends 'baseTemplate.html' %}
+{% load widget_tweaks %}
+{% load staticfiles %}
+{% load static %}
+
+{% block head %}
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+    <style>
+        body{
+            margin-top:20px;
+            background:#f5f5f5;
+        }
+        /**
+         * Panels
+         */
+        /*** General styles ***/
+        .panel {
+          box-shadow: none;
+        }
+        .panel-heading {
+            border-bottom: 0;
+            direction: rtl;
+        }
+        .panel-title {
+            font-size: 17px;
+            font-family: "B Koodak";
+        }
+        .panel-title > small {
+            font-size: .75em;
+            color: #999999;
+            font-family: "B Koodak";
+        }
+        .panel-body *:first-child {
+             margin-top: 0;
+        }
+        .panel-footer {
+            border-top: 0;
+        }
+
+        .panel-default > .panel-heading {
+            color: #333333;
+            background-color: transparent;
+            border-color: rgba(0, 0, 0, 0.07);
+        }
+
+        form label {
+            color: #999999;
+            font-weight: 400;
+        }
+
+        .form-horizontal .form-group {
+                align-items: left;
+                margin-left: -15px;
+                margin-right: -15px;
+        }
+        @media (min-width: 768px) {
+          .form-horizontal .control-label {
+                float: right;
+              font-family: "B Koodak";
+              font-size: 16px;
+                text-align: right;
+                margin-bottom: 0;
+                padding-top: 7px;
+          }
+        }
+
+        .profile__contact-info-icon {
+            float: left;
+            font-size: 18px;
+            color: #999999;
+        }
+        .profile__contact-info-body {
+            overflow: hidden;
+            padding-left: 20px;
+            color: #999999;
+        }
+        .profile-avatar {
+          width: 200px;
+          position: relative;
+          margin: 0px auto;
+          margin-top: 196px;
+          border: 4px solid #f3f3f3;
+        }
+    input{
+        text-align: center;
+    }
+    </style>
+{% endblock %}
+
+{% block content %}
+    {% if error %} <script> alert('{{ error }}'); </script> {% endif %}
+
+    <br>
+
+    <div class="container " style="width: 50% ">
+        <div class="row">
+                <form class="form-horizontal" method="post" id="form1" enctype="multipart/form-data">
+                    {% csrf_token %}
+
+                    <div class="panel panel-default">
+                      <div class="panel-body text-center">
+                        <img src="{{ student.img.url }}" class="img-circle profile-avatar" style="width: 200px ; height: 200px" alt="User avatar">
+                        <div class="form-group" >
+                             <input type="file" name="img" src="{{ student.img.url }}" value="{{ student.img.url }}">
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">اطلاعات حساب</h4>
+                        </div>
+                        <div class="panel-body">
+                          <div  class="form-group" >
+                            <label class="col-sm-3 control-label" >نام کاربری</label>
+                            <div class="col-sm-9">
+                              <input type="text" name="studentCode"  class="form-control" value="{{ student.studentCode }}">
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <label class="col-sm-3 control-label">رمز ورود</label>
+                            <div class="col-sm-9">
+                              <input type="password" name="password" class="form-control" value="{{ student.password }}">
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <label class="col-sm-3 control-label">تکرار رمز ورود</label>
+                            <div class="col-sm-9">
+                              <input type="password" name="confirmPassword" class="form-control" value="{{ student.password }}">
+                            </div>
+                          </div>
+                        </div>
+                    </div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                        <h4 class="panel-title"> اطلاعات کاربر</h4>
+                        </div>
+                        <div class="panel-body">
+                          <div class="form-group">
+                            <label class="col-sm-2 control-label">نام </label>
+                            <div class="col-sm-10">
+                              <input type="text" id="firstName" name="firstName" class="form-control" onchange="nameFunc()"  value="{{ student.firstName }}">
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <label class="col-sm-2 control-label">نام خانوادگی </label>
+                            <div class="col-sm-10">
+                              <input type="text" name="lastName" class="form-control" value="{{ student.lastName }}">
+                            </div>
+                          </div>
+
+                          <div class="form-group">
+                            <label class="col-sm-2 control-label">شماره تماس </label>
+                            <div class="col-sm-10">
+                              <input type="tel" maxlength="11" name="mobile" class="form-control" value="{{ student.mobile }}">
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <label class="col-sm-2 control-label">ایمیل  </label>
+                            <div class="col-sm-10">
+                              <input type="email" name="email" class="form-control" value="{{ student.email }}">
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <label class="col-sm-2 control-label"> آدرس</label>
+                            <div class="col-sm-10">
+                              <input type="text" name="address" style="text-align: right" class="form-control" value="{{ student.address }}">
+                            </div>
+                          </div>
+                            <input type="submit" class="btn btn-primary"  style="font:16px 'B Koodak';" value="ثبت تغییرات">
+                            <input type="button" class="btn btn-default"  style="font:16px 'B Koodak';" value="انصراف" onclick="deletForm()">
+                        </div>
+                    </div>
+                </form>
+            </div>
+    </div>
+
+    <script>
+        document.getElementsByTagName("input")
+        function nameFunc() {
+            document.getElementById("firstName").style.color = "red";
+        }
+        function deletForm() {
+            document.getElementById("form1").reset();
+        }
+    </script>
+{% endblock %}
+

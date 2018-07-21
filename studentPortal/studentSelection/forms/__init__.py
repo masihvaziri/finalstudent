@@ -1,0 +1,2 @@
+from .studentRegisterForm import studentRegisterForm
+from .lessonsForm import lessonsForm

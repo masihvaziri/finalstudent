@@ -1,0 +1,73 @@
+{% extends 'teacherBaseTemplate.html' %}
+{% load widget_tweaks %}
+{% load staticfiles %}
+{% load static %}
+
+
+{% block head %}
+    <link rel="stylesheet" href="{% static 'stylesheet/setgrade.css'%}"/>
+
+    <style>
+
+        body{
+            background-color: white;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    {% if error %}
+        <script>
+            window.alert('{{ error }}') ;
+        </script>
+    {% endif %}
+    <br>
+
+    <div class="container-fluid"   style=" display:block; ">
+        <div class="container">
+
+
+            <div class="header" style="direction: rtl">
+                <br>
+                <p style="font:18px 'B Koodak';color: white" > فرم ثبت درس جدید :</p>
+            </div>
+            <hr>
+
+            <form id="registercourse" method="post">
+            {% csrf_token %}
+
+                <div class="form-group container " style="direction: rtl ; color: white ;width: 50%">
+                    <label>نام:</label>
+                    {% render_field form.name  class+="form-control"%}
+                    <br>
+
+                    <label>تعداد واحد:</label>
+                    {% render_field form.vahed  class+="form-control"%}
+                    <br>
+                    <label>ظرفیت:</label>
+                    {% render_field form.capacity  class+="form-control"%}
+                    <br>
+
+                    <label>ظرفیت باقی مانده:</label>
+                    {% render_field form.remain  class+="form-control"%}
+                    <br>
+
+                    <label>جزپیات:</label>
+                    {% render_field form.details  class+="form-control"%}
+                    <br>
+
+                    <label>ترم : </label>
+                    {% render_field form.term  class+="form-control"%}
+                    <br>
+
+                    <button type="submit" class="btn btn-success" >ذخیره</button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+
+    <script>
+        myfunct()
+    </script>
+{% endblock %}

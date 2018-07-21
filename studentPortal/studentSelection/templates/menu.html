@@ -1,0 +1,189 @@
+{% load widget_tweaks %}
+{% load staticfiles %}
+{% load static %}
+
+<html>
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css" integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B" crossorigin="anonymous">
+
+        <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+        <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+
+        <script src="{% static 'javascript/menu.js' %}"></script>
+         <link rel="stylesheet" href="{% static 'stylesheet/menu.css' %}">
+
+
+
+    <style>
+        .sidenav {
+          height: 100%;
+          width: 200px;
+          z-index: 1;
+          background-color: #e8e8e8;
+          overflow-x: hidden;
+          padding-top: 20px;
+          float: right;
+          direction: rtl;
+        }
+
+        .sidenav a, .dropdown-btn {
+          padding: 10px;
+          text-decoration: none;
+          font-size: 20px;
+          color: #818181;
+          display: block;
+          border: none;
+          background: none;
+          width:100%;
+          text-align: right;
+          cursor: pointer;
+          outline: none;
+        }
+
+        .sidenav a:hover, .dropdown-btn:hover {
+          color: #f1f1f1;
+        }
+
+        .main {
+            padding: 5px;
+            padding-right: 205px;
+            direction: rtl;
+            font-size: 20px; /* Increased text to enable scrolling */
+        }
+
+        .active {
+          background-color: green;
+          color: white;
+        }
+
+        .dropdown-container {
+              display: none;
+              background-color: #262626;
+              padding-left: 8px;
+            }
+
+
+        .fa-caret-down {
+          float: right;
+          padding-right: 8px;
+        }
+        table
+        {
+
+        }
+        tr{
+
+        }
+        td{
+            padding-right: 20px;
+            padding-top: 30px;
+            color:darkblue;
+            text-align: right;
+        }
+        label{
+            font-family: "B Koodak";
+            color: black;
+        }
+
+        @media screen and (max-width:958px ) {
+        td{
+           padding: 5px;
+            font-size: 10px;
+            }
+            label{
+                font-size: 10px;
+            }
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js" integrity="sha384-o+RDsa0aLu++PJvFqy8fFScvbHFLtbvScb8AjopnFD+iEQ7wo/CG0xlczd+2O/em" crossorigin="anonymous"></script>
+</head>
+
+
+<body style="background-color: white" >
+
+
+
+<div class="sidenav" >
+        <a href="/home/" style="direction: rtl ; float: right">  <span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-home"> صفحه اصلی </span></a>
+        <a href="#" style="direction: rtl ; float: right"><span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-user"> کاربری </span>  </a>
+        <button class="dropdown-btn">
+            <span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-th-list"> امور آموزشی </span>
+        <i class="fa fa-caret-down"></i>
+        </button>
+
+        <div class="dropdown-container">
+            <a href="/home/" style="direction: rtl ; float: right;background-color: #8f8f8f">انتخاب واحد </a></li>#}
+            <a href="#" style="direction: rtl ; float: right"> لیست نمرات </a>
+            <a href="#" style="direction: rtl ; float: right"> کارنامه کل </a>
+            <a href="#" style="direction: rtl ; float: right"> برنامه کلاسی </a>
+            <a href="#" style="direction: rtl ; float: right"> آموزشی2 </a>
+        </div>
+
+        <a href="#" style="direction: rtl ; float: right"><span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-off">  خروج </span></a>
+    </div>
+
+
+
+<div class="main">
+    <div class="panel" style=" height: 150px; background-color: #2BD6B4 ;">
+        <img src="{{ user.img.url }}" class="img-rounded profile-avatar" style="max-width: 150px ; max-height: 150px ; float:left" alt="User avatar">
+        <table >
+            <tbody>
+            <tr>
+                <td>
+                    <label>نام: </label>
+                </td>
+                <td>{{ user.firstName }}</td>
+
+                <td>
+                    <label>نام خانوادگی: </label>
+                </td>
+                <td>{{ user.lastName }}</td>
+
+                <td>
+                    <label> شماره دانشجویی: </label>
+                </td>
+                <td>{{ user.studentCode }}</td>
+
+                <td>
+                    <label>  وضعیت : </label>
+                </td>
+                <td> فعال </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <label> شماره تماس: </label>
+                </td>
+                <td>{{ user.mobile }}</td>
+
+                <td>
+                    <label> ایمیل : </label>
+                </td>
+                <td>{{ user.email }}</td>
+
+                <td>
+                    <label> آدرس : </label>
+                </td>
+                <td>{{ user.address }}</td>
+
+            </tr>
+
+            </tbody>
+        </table>
+    </div>
+
+    <div class="panel" style=" ;margin-top: 5px;margin-left: 5px;margin-bottom: 1%; direction: rtl">
+        <a href="#"><h4 style="text-align: center ; font-family: 'B Koodak'">اخبار مهم</h4></a>
+        <a href="#"><h4 style="text-align: center ; font-family: 'B Koodak'"> پیام های شخصی </h4></a>
+    </div>
+</div>
+
+
+
+
+</body>
+</html>
+
